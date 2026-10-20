@@ -27,9 +27,17 @@ def ejecutar_descarga(url, opcion, servicio, text_widget, btn_descargar):
     if servicio == "youtube":
         tool = "yt-dlp"
         if opcion.get() == 1:
-            comando = [tool, "-x", "--audio-format", "mp3", "--no-playlist", "-o", "%(title)s.%(ext)s", url]
+            comando = [
+                tool, "-x", "--audio-format", "mp3", "--no-playlist", 
+                "--extractor-args", "youtube:player-client=android", 
+                "-o", "%(title)s.%(ext)s", url
+            ]
         else:
-            comando = [tool, "-x", "--audio-format", "mp3", "--yes-playlist", "-o", os.path.join("%(playlist)s", "%(playlist_index)s - %(title)s.%(ext)s"), url]
+            comando = [
+                tool, "-x", "--audio-format", "mp3", "--yes-playlist", 
+                "--extractor-args", "youtube:player-client=android", 
+                "-o", os.path.join("%(playlist)s", "%(playlist_index)s - %(title)s.%(ext)s"), url
+            ]
     else:  # Spotify con spotdl
         tool = "spotdl"
         comando = [tool, url]
