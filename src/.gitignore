@@ -1,4 +1,4 @@
-# Compilaciones y ejecutables temporales
+# Compilaciones, ejecutables y specs de PyInstaller
 build/
 dist/
 *.spec
@@ -8,7 +8,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Entornos virtuales y configuraciones de editor
+# Entornos virtuales y editores
 .venv/
 .vscode/
 .idea/
