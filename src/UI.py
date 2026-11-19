@@ -233,3 +233,6 @@ def construir_interfaz(root):
     min_w, min_h = root.winfo_reqwidth(), root.winfo_reqheight()
     root.minsize(min_w, min_h)
     root.geometry(f"{max(600, min_w)}x{max(700, min_h)}")
+
+    # Devolvemos la consola y el botón para que main.py pueda escribir el estado de las comprobaciones
+    return txt_consola, btn_descargar
