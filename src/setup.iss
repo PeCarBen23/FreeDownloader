@@ -1,10 +1,10 @@
 [Setup]
 AppName=FreeDownloader
-AppVersion=1.0
+AppVersion=1.1
 DefaultDirName={autopf}\FreeDownloader
 DefaultGroupName=FreeDownloader
 OutputDir=output
-OutputBaseFilename=FreeDownloaderInstaller
+OutputBaseFilename=FreeDownloader-Installer
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

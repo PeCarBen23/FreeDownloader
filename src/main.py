@@ -8,7 +8,7 @@ from UI import construir_interfaz
 
 # REEMPLAZA con tu usuario y repositorio real en GitHub
 GITHUB_REPO_API = "https://api.github.com/repos/PeCarBen23/FreeDownloader/releases/latest"
-VERSION_ACTUAL = "v1.0.0"  # Sube esta versión cuando lances actualizaciones
+VERSION_ACTUAL = "v1.1.0"  # Sube esta versión cuando lances actualizaciones
 
 # Dependencias que se comprueban/actualizan en cada arranque (pip install --upgrade ...)
 DEPENDENCIAS = ["yt-dlp", "spotdl"]
