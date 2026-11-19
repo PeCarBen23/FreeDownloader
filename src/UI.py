@@ -92,8 +92,6 @@ def alternar_tema(root, toolbar, titulo_label, entry_url, btn_descargar, widgets
 
 def construir_interfaz(root):
     root.title("Descargador Multimedia a MP3")
-    root.geometry("600x700")
-    root.minsize(550, 600)
     
     servicio_actual = tk.StringVar(value="youtube")
     modo_oscuro = tk.BooleanVar(value=False)
@@ -132,17 +130,18 @@ def construir_interfaz(root):
     frame_principal = tk.Frame(root)
     frame_principal.pack(fill=tk.BOTH, expand=True, padx=15, pady=10)
 
-    # Configurar filas y columnas del grid principal
-    frame_principal.rowconfigure(4, weight=1) # La consola se expande verticalmente
-    frame_principal.columnconfigure(0, weight=1)
+    # El botón se empaqueta PRIMERO y abajo: así siempre queda visible,
+    # aunque la ventana sea pequeña (lo que se recorta es la consola).
+    btn_descargar = tk.Button(frame_principal, text="Iniciar Descarga", font=("Arial", 11, "bold"), bg="#4CAF50", fg="white", padx=15, pady=8)
+    btn_descargar.pack(side=tk.BOTTOM, pady=10)
 
     # Fila 0: Título
     titulo_label = tk.Label(frame_principal, text="Descargador de YouTube a MP3", font=("Arial", 14, "bold"))
-    titulo_label.grid(row=0, column=0, pady=(0, 10))
+    titulo_label.pack(side=tk.TOP, pady=(0, 10))
     
     # Fila 1: Botones de servicio (YouTube / Spotify)
     frame_botones_superiores = tk.Frame(frame_principal)
-    frame_botones_superiores.grid(row=1, column=0, pady=5)
+    frame_botones_superiores.pack(side=tk.TOP, pady=5)
     
     btn_youtube = tk.Button(frame_botones_superiores, text="YouTube", font=("Arial", 10, "bold"), bg="#FF0000", fg="white", padx=15, pady=5, relief=tk.SUNKEN, bd=4)
     btn_youtube.pack(side=tk.LEFT, padx=5)
@@ -152,7 +151,7 @@ def construir_interfaz(root):
     
     # Fila 2: Opciones de descarga (Radiobuttons)
     frame_opciones = tk.LabelFrame(frame_principal, text=" Opciones de Descarga ", font=("Arial", 10, "bold"))
-    frame_opciones.grid(row=2, column=0, sticky="ew", pady=8)
+    frame_opciones.pack(side=tk.TOP, fill=tk.X, pady=8)
     
     opcion = tk.IntVar(value=1)
     
@@ -167,7 +166,7 @@ def construir_interfaz(root):
     
     # Fila 3: Campo de URL
     frame_url = tk.Frame(frame_principal)
-    frame_url.grid(row=3, column=0, sticky="ew", pady=5)
+    frame_url.pack(side=tk.TOP, fill=tk.X, pady=5)
     
     lbl_url = tk.Label(frame_url, text="URL del contenido (Video, Canción o Playlist):", font=("Arial", 10))
     lbl_url.pack(anchor=tk.W)
@@ -177,16 +176,12 @@ def construir_interfaz(root):
     
     # Fila 4: Consola de texto (expandible)
     frame_consola = tk.Frame(frame_principal)
-    frame_consola.grid(row=4, column=0, sticky="nsew", pady=5)
+    frame_consola.pack(side=tk.TOP, fill=tk.BOTH, expand=True, pady=5)
     
-    txt_consola = scrolledtext.ScrolledText(frame_consola, wrap=tk.WORD, font=("Consolas", 9), bg="#1e1e1e", fg="#ffffff", height=6)
+    txt_consola = scrolledtext.ScrolledText(frame_consola, wrap=tk.WORD, font=("Consolas", 9), bg="#1e1e1e", fg="#ffffff", height=4)
     txt_consola.pack(fill=tk.BOTH, expand=True)
     
     btn_limpiar.config(command=lambda: limpiar_consola(txt_consola))
-
-    # Fila 5: Botón Iniciar Descarga (siempre fijo y visible al fondo)
-    btn_descargar = tk.Button(frame_principal, text="Iniciar Descarga", font=("Arial", 11, "bold"), bg="#4CAF50", fg="white", padx=15, pady=8)
-    btn_descargar.grid(row=5, column=0, pady=10)
 
     # Asignar comando de descarga
     btn_descargar.config(command=lambda: iniciar_hilo(entry_url, opcion, servicio_actual, txt_consola, btn_descargar))
@@ -231,3 +226,10 @@ def construir_interfaz(root):
 
     # Aplicar modo oscuro por defecto al iniciar
     alternar_tema(root, toolbar, titulo_label, entry_url, btn_descargar, widgets_texto, widgets_botones_toolbar, modo_oscuro)
+
+    # Tamaño mínimo calculado con el contenido real (válido con cualquier escalado de pantalla):
+    # la ventana nunca puede hacerse tan pequeña como para ocultar el botón de descarga.
+    root.update_idletasks()
+    min_w, min_h = root.winfo_reqwidth(), root.winfo_reqheight()
+    root.minsize(min_w, min_h)
+    root.geometry(f"{max(600, min_w)}x{max(700, min_h)}")

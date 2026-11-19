@@ -14,14 +14,12 @@ def actualizar_y_verificar(root, txt_consola=None):
     try:
         # 1. Actualizar yt-dlp de forma silenciosa en segundo plano
         # Usamos CREATE_NO_WINDOW para que no aparezca ninguna ventana negra de CMD en Windows
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        
         subprocess.run(
             ["pip", "install", "--upgrade", "yt-dlp"],
-            startupinfo=startupinfo,
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
     except Exception:
         pass  # Si no hay internet o falla pip, la app sigue funcionando con normalidad
